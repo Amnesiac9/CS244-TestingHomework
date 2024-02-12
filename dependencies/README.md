@@ -1,0 +1,1 @@
+Imagine these are node modules or other pieces of source code you would want to mock. I did not place them under src, because I didn't want you to think they need to be tested. You can ignore all files under this folder, but know you'll need to mock them in testing.
