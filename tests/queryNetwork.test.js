@@ -1,16 +1,17 @@
 const fetch = require("../dependencies/fetch");
 const queryNetwork = require("../src/queryNetwork");
 
-// Not sure if I did this right.
+// Mock fetch.js
 jest.mock("../dependencies/fetch");
 
 describe("queryNetwork", () => {
-    // Mock fetch.js
-    // const mockJson = jest.fn(() => ({}));
+    // Return a promise that resolves into an object with a json method that returns { test: "" } object =)
     const mockFetch = jest.fn(() => Promise.resolve({ json: () => ({ json: { test: "" } }) }));
+    // Replace the real fetch with the mock version
+    fetch.mockImplementation(mockFetch);
+
     // Test that fetch is invoked
     test("should call fetch", async () => {
-        fetch.mockImplementation(mockFetch);
         await queryNetwork("https://test.com");
         expect(fetch).toBeCalled();
     });
@@ -18,7 +19,6 @@ describe("queryNetwork", () => {
     // Test that the returned promise resolves into the object
     // your mock is using for the json() method
     test("should return the object from json", async () => {
-        fetch.mockImplementation(mockFetch);
         const result = await queryNetwork("https://test.com");
         expect(result).toEqual({ json: { test: "" } });
     });
